@@ -1,0 +1,47 @@
+@@ -0,0 +1,46 @@
++arc('Ruse','Shumen',113).
++arc('Shumen','Ruse',113).
++arc('Shumen','Varna',89).
++arc('Varna','Shumen',89).
++arc('Varna','Burgas',117).
++arc('Burgas','Varna',117).
++arc('Burgas','Stara_Zagora',195).
++arc('Stara_Zagora','Burgas',195).
++arc('Stara_Zagora','Plovdiv',101).
++arc('Plovdiv','Stara_Zagora',101).
++arc('Smolian','Plovdiv',102).
++arc('Plovdiv','Smolian',102).
++arc('Plovdiv','Sofiq',147).
++arc('Sofiq','Plovdiv',147).
++arc('Veliko_Tarnovo','Ruse',109).
++arc('Ruse','Veliko_Tarnovo',109).
++arc('Pleven','Ruse',148).
++arc('Ruse','pleven',148).
++
++
++%?-findall(City,arc('Veliko_Tarnovo',City,_),List),
++%write(List).
++%ext2([Node|Path],NewNode):-
++%arc(Node,NewNode,_),
++%not(member(NewNode,[|Path])).
++%-breadthfirst([['Ruse']],'Plovdiv',Path),corite(Path),nl,fail.
++length([],0).
++length([_|T],N):-
++length(T,N1),
++N is N1+1.
++extend1(Depth,Path,NewPaths):-
++length(Path,Len),
++Len < Depth,!,
++extend(Path,NewPaths).
++extend1(_,_,[]).
++depth_bound(_,[[Goal|Path]|_],Goal,NewPath):-
++revers([Goal|Path],NewPath).
++depthbound(Depth,[Path|Stack],Goal,FinalPath):-
++extend1(Depth,Path,NewPath),
++append(NewPath,Stack,NewStack),
++depthbound(Depth,NewStack,Goal,FinalPath).
++extend([Node|Path],NewPaths):-
++findall([NewNode,Node[Path],
++ext2([Node|Path],NewNode),
++NewPaths).
++?-depth_bownd(4,[['Ruse']],'Plovdiv',Path),write(Path),nl,fail
